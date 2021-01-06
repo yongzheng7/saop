@@ -1,10 +1,7 @@
 package com.atom.aop.aspectj;
 
-import android.os.Build;
 import android.os.Looper;
 import android.os.Trace;
-
-import androidx.annotation.NonNull;
 
 import com.atom.aop.enums.LogType;
 import com.atom.aop.utils.ClassUtils;
@@ -23,31 +20,31 @@ import java.util.concurrent.TimeUnit;
  * 埋点记录
  */
 @Aspect
-public class LogAspectJ {
+public class SLogAspectJ {
 
-    @Pointcut("within(@com.atom.aop.aspectj.Log *)")
+    @Pointcut("within(@com.atom.aop.aspectj.SLog *)")
     public void type() {
     } //方法切入点
 
 
-    @Pointcut("execution(@com.atom.aop.aspectj.Log !synthetic * *(..))")
+    @Pointcut("execution(@com.atom.aop.aspectj.SLog !synthetic * *(..))")
     public void method() {
     } //方法切入点
 
-    @Pointcut("execution(@com.atom.aop.aspectj.Log !synthetic *.new(..))")
+    @Pointcut("execution(@com.atom.aop.aspectj.SLog !synthetic *.new(..))")
     public void constructor() {
     } //构造器切入点
 
-    @Around("(type() || constructor() || method()) && @annotation(log)")
-    public Object logAndExecute(ProceedingJoinPoint joinPoint, Log log) throws Throwable {
-        if (log.type() != LogType.after) {
-            enterMethod(joinPoint, log);
+    @Around("(type() || constructor() || method()) && @annotation(sLog)")
+    public Object logAndExecute(ProceedingJoinPoint joinPoint, SLog sLog) throws Throwable {
+        if (sLog.type() != LogType.after) {
+            enterMethod(joinPoint, sLog);
         }
         long startNanos = System.nanoTime();
         Object result = joinPoint.proceed();
         long stopNanos = System.nanoTime();
-        if (log.type() != LogType.before) {
-            exitMethod(joinPoint, log, result, TimeUnit.NANOSECONDS.toMillis(stopNanos - startNanos));
+        if (sLog.type() != LogType.before) {
+            exitMethod(joinPoint, sLog, result, TimeUnit.NANOSECONDS.toMillis(stopNanos - startNanos));
         }
         return result;
     }
@@ -56,7 +53,7 @@ public class LogAspectJ {
     /**
      * 方法执行前切入
      */
-    private void enterMethod(ProceedingJoinPoint joinPoint, Log log) {
+    private void enterMethod(ProceedingJoinPoint joinPoint, SLog log) {
         if (!Logger.isDebug()) {
             return;
         }
@@ -69,7 +66,7 @@ public class LogAspectJ {
 
         //记录并打印方法的信息
 
-        StringBuilder builder = new StringBuilder(log.tag() + " \u21E2 ");
+        StringBuilder builder = new StringBuilder((log.tag().isEmpty() ? cls.getSimpleName() : log.tag()) + " \u21E2 ");
         builder.append(methodName).append('(');
         for (int i = 0; i < parameterValues.length; i++) {
             if (i > 0) {
@@ -98,7 +95,7 @@ public class LogAspectJ {
      * @param result       方法执行后的结果
      * @param lengthMillis 执行方法所需要的时间
      */
-    private void exitMethod(ProceedingJoinPoint joinPoint, Log log, Object result, long lengthMillis) {
+    private void exitMethod(ProceedingJoinPoint joinPoint, SLog log, Object result, long lengthMillis) {
         if (!Logger.isDebug()) {
             return;
         }
@@ -108,7 +105,7 @@ public class LogAspectJ {
         String methodName = signature.getName();
         boolean hasReturnType = ClassUtils.isMethodHasReturnType(signature);
 
-        StringBuilder builder = new StringBuilder(log.tag() + " \u21E0 ")
+        StringBuilder builder = new StringBuilder((log.tag().isEmpty() ? cls.getSimpleName() : log.tag()) + " \u21E0 ")
                 .append(methodName)
                 .append(" [")
                 .append(lengthMillis)
