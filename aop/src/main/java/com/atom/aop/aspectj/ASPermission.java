@@ -14,9 +14,11 @@ import java.lang.annotation.Target;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD, ElementType.PARAMETER})
-public @interface Permission {
+public @interface ASPermission {
     /**
      * @return 需要申请权限的集合
+     * 通过权限组来便捷申请
+     * PermissionConsts.CAMERA
      */
     String[] value();
 }

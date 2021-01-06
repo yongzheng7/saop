@@ -18,7 +18,12 @@ package com.atom.saop;
 
 import android.app.Application;
 
+import com.atom.aop.SAOP;
+import com.atom.aop.utils.PermissionUtils;
+import com.atom.aop.utils.StringUtils;
 import com.atom.aop.utils.log.Logger;
+
+import java.util.List;
 
 /**
  * <pre>
@@ -36,6 +41,14 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        Logger.debug(true);
+        SAOP.init(this);
+        SAOP.debug(true);
+        SAOP.setOnPermissionDeniedListener(new PermissionUtils.OnPermissionDeniedListener() {
+            @Override
+            public void onDenied(List<String> permissionsDenied) {
+                String s = StringUtils.listToString(permissionsDenied);
+                Logger.e("权限就是没有 自己跳转去申请吧" + s);
+            }
+        });
     }
 }

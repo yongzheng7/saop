@@ -20,7 +20,7 @@ import java.util.concurrent.TimeUnit;
  * 埋点记录
  */
 @Aspect
-public class SLogAspectJ {
+public class DLogAspectJ {
 
     @Pointcut("within(@com.atom.aop.aspectj.SLog *)")
     public void type() {
@@ -36,7 +36,7 @@ public class SLogAspectJ {
     } //构造器切入点
 
     @Around("(type() || constructor() || method()) && @annotation(sLog)")
-    public Object logAndExecute(ProceedingJoinPoint joinPoint, SLog sLog) throws Throwable {
+    public Object logAndExecute(ProceedingJoinPoint joinPoint, DLog sLog) throws Throwable {
         if (sLog.type() != LogType.after) {
             enterMethod(joinPoint, sLog);
         }
@@ -53,7 +53,7 @@ public class SLogAspectJ {
     /**
      * 方法执行前切入
      */
-    private void enterMethod(ProceedingJoinPoint joinPoint, SLog log) {
+    private void enterMethod(ProceedingJoinPoint joinPoint, DLog log) {
         if (!Logger.isDebug()) {
             return;
         }
@@ -95,7 +95,7 @@ public class SLogAspectJ {
      * @param result       方法执行后的结果
      * @param lengthMillis 执行方法所需要的时间
      */
-    private void exitMethod(ProceedingJoinPoint joinPoint, SLog log, Object result, long lengthMillis) {
+    private void exitMethod(ProceedingJoinPoint joinPoint, DLog log, Object result, long lengthMillis) {
         if (!Logger.isDebug()) {
             return;
         }

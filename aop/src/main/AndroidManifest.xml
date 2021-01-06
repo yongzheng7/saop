@@ -1,5 +1,20 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.atom.aop">
+<manifest package="com.atom.aop"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    /
+
+    <!--文件读写权限-->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"
+        tools:ignore="ProtectedPermissions" />
+
+    <application>
+        <activity
+            android:name=".utils.PermissionUtils$PermissionActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:theme="@style/AOP_Activity_Translucent"
+            android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
+    </application>
+
 </manifest>

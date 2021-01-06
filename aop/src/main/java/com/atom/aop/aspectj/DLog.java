@@ -14,7 +14,7 @@ import java.lang.annotation.Target;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.METHOD, ElementType.CONSTRUCTOR})
-public @interface SLog {
+public @interface DLog {
 
     int priority() default 0;
 

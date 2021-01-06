@@ -18,6 +18,7 @@ package com.atom.aop.utils;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
@@ -183,6 +184,23 @@ public final class StringUtils {
         }
         builder.append(']');
         seen.remove(array);
+    }
+
+
+    public static String listToString(final List<String> list) {
+        return listToString(list, ",");
+    }
+
+    public static String listToString(final List<String> list, final String separator) {
+        if (list == null || list.size() == 0) {
+            return "";
+        }
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < list.size(); i++) {
+            sb.append(list.get(i)).append(separator);
+        }
+        return sb.toString().substring(0, sb.toString().length() - 1);
     }
 
     private StringUtils() {
