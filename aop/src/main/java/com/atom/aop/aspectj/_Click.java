@@ -10,16 +10,8 @@ import java.lang.annotation.Target;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-public @interface SClick {
+public @interface _Click {
 
-    /**
-     * 此次点击集合动作和下次的间隔时间
-     * number == 1 起效
-     * 如果number >1
-     * 则判定为 连续点击 number次起效
-     * 这时 value 失效 interval 起效
-     * @return
-     */
     long value() default 1000;
 
     int number() default 1 ;

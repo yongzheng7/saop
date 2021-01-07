@@ -147,7 +147,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Log"
+                    android:text="Click"
                     android:textSize="25dp" />
 
                 <LinearLayout
@@ -157,24 +157,22 @@
                     android:padding="10dp">
 
                     <TextView
+                        android:id="@+id/test_click_single"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Hello SAOP!"
+                        android:text="预防重复点击[1000ms]点击生效一次"
                         android:textSize="20dp" />
 
                     <View
                         android:layout_width="match_parent"
-                        android:layout_height="3dp" />
+                        android:layout_height="5dp" />
 
                     <TextView
+                        android:id="@+id/test_click_some"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Hello SAOP!"
+                        android:text="允许重复点击[多次生效一次,双击或者三]"
                         android:textSize="20dp" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="3dp" />
                 </LinearLayout>
 
                 <View

@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.atom.aop.aspectj.VPermission;
+import com.atom.aop.aspectj._Click;
 import com.atom.aop.aspectj._Log;
 import com.atom.aop.aspectj.VDialog;
 import com.atom.aop.aspectj._Permission;
@@ -78,6 +79,17 @@ public class MainActivity extends AppCompatActivity {
             Logger.e(s);
         });
 
+        findViewById(R.id.test_click_single).setOnClickListener(v -> {
+            //test_click_return_void_single(v) ;
+            Logger.e(test_click_return_string_single(v));
+        });
+
+        findViewById(R.id.test_click_some).setOnClickListener(v -> {
+            test_click_return_void_some(v);
+            //Logger.e(test_click_return_string_some(v));
+        });
+
+
     }
 
     private long test() {
@@ -127,6 +139,8 @@ public class MainActivity extends AppCompatActivity {
     public void test_dialog_after(View view, DialogCallback callback) {
 
     }
+
+    /*------------ Permission Test ------------*/
     @_Permission({PermissionConsts.CAMERA , PermissionConsts.LOCATION})
     public void test_permission_async_void(View view) {
         Logger.e("test_ show permission by void -------------> result [" + test() + "]");
@@ -141,5 +155,38 @@ public class MainActivity extends AppCompatActivity {
     @VPermission({Manifest.permission.READ_CONTACTS , Manifest.permission.SEND_SMS})
     public void test_permission_sync_void(View view) {
         Logger.e("test_ show permission by void sync-------------> result [" + test() + "]");
+    }
+
+
+    /*------------ Click Test ------------*/
+    long curr = System.currentTimeMillis() ;
+    @_Click()
+    public void test_click_return_void_single(View view){
+        long temp = System.currentTimeMillis() ;
+        Logger.e("test_ show click by  void -------------> result [" + test() + "]   [>1000]time = "+(temp - curr));
+        curr = temp ;
+    }
+    @_Click(value = 2000)
+    public String test_click_return_string_single(View view){
+        long temp = System.currentTimeMillis() ;
+        Logger.e("test_ show click by  void -------------> result [" + test() + "]   [>2000]time = "+(temp - curr));
+        long space = temp - curr;
+        curr = temp ;
+        return "test_ show click by String -------------> [>2000] time ="+space;
+    }
+
+    @_Click(number = 2)
+    public void test_click_return_void_some(View view){
+        long temp = System.currentTimeMillis() ;
+        Logger.e("test_ show click by  void -------------> result  [> 2 * 500]time = "+(temp - curr));
+        curr = temp ;
+    }
+    @_Click(number = 3 , interval = 200)
+    public String test_click_return_string_some(View view){
+        long temp = System.currentTimeMillis() ;
+        Logger.e("test_ show click by  void -------------> result  [> 3 * 200]time = "+(temp - curr));
+        long space = temp - curr;
+        curr = temp ;
+        return "test_ show click by String -------------> [>2000] time ="+space;
     }
 }

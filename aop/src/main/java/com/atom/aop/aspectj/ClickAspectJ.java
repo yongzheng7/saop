@@ -29,15 +29,15 @@ import org.aspectj.lang.annotation.Pointcut;
 /**
  * 单次和多次并存
  */
-//@Aspect
-public class SClickAspectJ {
+@Aspect
+public class ClickAspectJ {
 
-    @Pointcut("execution(@com.atom.aop.aspectj.SClick !synthetic * *(..))")
+    @Pointcut("execution(@com.atom.aop.aspectj._Click !synthetic * *(..))")
     public void method() {
     }  //方法切入点
 
-    @Around("method() && @annotation(sClick)")//在连接点进行方法替换
-    public void aroundJoinPoint(ProceedingJoinPoint joinPoint, SClick sClick) throws Throwable {
+    @Around("method() && @annotation(click)")//在连接点进行方法替换
+    public Object aroundJoinPoint(ProceedingJoinPoint joinPoint, _Click click) throws Throwable {
         View view = null;
         for (Object arg : joinPoint.getArgs()) {
             if (arg instanceof View) {
@@ -45,13 +45,14 @@ public class SClickAspectJ {
                 break;
             }
         }
-        if (view != null && sClick.number() > 0) {
-            if (isCanClick(view, sClick)) {
-                joinPoint.proceed();
+        if (view != null && click.number() > 0) {
+            if (isCanClick(view, click)) {
+                return joinPoint.proceed();
             } else {
-                Logger.d(ClassUtils.getMethodDescribeInfo(joinPoint) + ":发生快速点击，View id:" + view.getId());
+                Logger.e(ClassUtils.getMethodDescribeInfo(joinPoint) + ":发生快速点击，View id:" + view.getId());
             }
         }
+        return null;
     }
 
     /**
@@ -70,7 +71,7 @@ public class SClickAspectJ {
     /**
      * 是否是快速点击
      */
-    public static boolean isCanClick(View v, SClick click) {
+    public static boolean isCanClick(View v, _Click click) {
         long currTime = System.currentTimeMillis();
         int currViewId = v.getId();
         if (currViewId != sLastClickViewId) {
