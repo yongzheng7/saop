@@ -164,14 +164,6 @@ public final class PermissionUtils {
         return this;
     }
 
-    public boolean checkPermissions() {
-        if (mPermissionsRequest.size() == 0
-                || mPermissions.size() == mPermissionsGranted.size()) {
-            return true;
-        }
-        return false;
-    }
-
     /**
      * 开始请求
      */

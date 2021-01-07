@@ -22,29 +22,29 @@ import java.util.concurrent.TimeUnit;
 @Aspect
 public class DLogAspectJ {
 
-    @Pointcut("within(@com.atom.aop.aspectj.SLog *)")
+    @Pointcut("within(@com.atom.aop.aspectj.DLog *)")
     public void type() {
     } //方法切入点
 
 
-    @Pointcut("execution(@com.atom.aop.aspectj.SLog !synthetic * *(..))")
+    @Pointcut("execution(@com.atom.aop.aspectj.DLog !synthetic * *(..))")
     public void method() {
     } //方法切入点
 
-    @Pointcut("execution(@com.atom.aop.aspectj.SLog !synthetic *.new(..))")
+    @Pointcut("execution(@com.atom.aop.aspectj.DLog !synthetic *.new(..))")
     public void constructor() {
     } //构造器切入点
 
-    @Around("(type() || constructor() || method()) && @annotation(sLog)")
-    public Object logAndExecute(ProceedingJoinPoint joinPoint, DLog sLog) throws Throwable {
-        if (sLog.type() != LogType.after) {
-            enterMethod(joinPoint, sLog);
+    @Around("(type() || constructor() || method()) && @annotation(dLog)")
+    public Object logAndExecute(ProceedingJoinPoint joinPoint, DLog dLog) throws Throwable {
+        if (dLog.type() != LogType.after) {
+            enterMethod(joinPoint, dLog);
         }
         long startNanos = System.nanoTime();
         Object result = joinPoint.proceed();
         long stopNanos = System.nanoTime();
-        if (sLog.type() != LogType.before) {
-            exitMethod(joinPoint, sLog, result, TimeUnit.NANOSECONDS.toMillis(stopNanos - startNanos));
+        if (dLog.type() != LogType.before) {
+            exitMethod(joinPoint, dLog, result, TimeUnit.NANOSECONDS.toMillis(stopNanos - startNanos));
         }
         return result;
     }
