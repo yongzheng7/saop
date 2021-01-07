@@ -5,18 +5,17 @@ import com.atom.aop.enums.DialogRunType;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
-import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 
-@Aspect
-public class RDialogAspectJ {
+//@Aspect
+public class DialogAspectJ {
     //..,android.app.Activity,..
-    @Pointcut("execution(@com.atom.aop.aspectj.RDialog !synthetic * *(.. , com.atom.aop.enums.DialogCallback , ..))")
+    @Pointcut("execution(@com.atom.aop.aspectj._Dialog !synthetic * *(.. , com.atom.aop.enums.DialogCallback , ..))")
     public void method() {
     }  //方法切入点
 
     @Around("method() && @annotation(rDialog)")
-    public Object dialogAroundJoinPoint(ProceedingJoinPoint joinPoint, RDialog rDialog) throws Throwable {
+    public Object dialogAroundJoinPoint(ProceedingJoinPoint joinPoint, _Dialog rDialog) throws Throwable {
         DialogCallback callback = null;
         for (Object arg : joinPoint.getArgs()) {
             if (arg instanceof DialogCallback) {

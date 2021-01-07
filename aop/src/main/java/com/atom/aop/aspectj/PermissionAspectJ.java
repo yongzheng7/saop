@@ -2,6 +2,7 @@ package com.atom.aop.aspectj;
 
 import com.atom.aop.SAOP;
 import com.atom.aop.utils.PermissionUtils;
+import com.atom.aop.utils.log.Logger;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -20,12 +21,12 @@ import java.util.List;
 @Aspect
 public class PermissionAspectJ {
 
-    @Pointcut("execution(@com.atom.aop.aspectj.Permission * *(..))")
-    public void method() {
+    @Pointcut("execution(@com.atom.aop.aspectj._Permission * *(..))")
+    public void method_async() {
     }  //方法切入点
 
-    @Around("method() && @annotation(sPermission)")
-    public Object aroundJoinPoint(final ProceedingJoinPoint joinPoint, Permission permission) throws Throwable {
+    @Around("method_async() && @annotation(permission)")
+    public Object aroundJoinPoint(final ProceedingJoinPoint joinPoint, _Permission permission) throws Throwable {
         final boolean[] result = {false};
         PermissionUtils
                 .permission(permission.value())
@@ -47,6 +48,34 @@ public class PermissionAspectJ {
         } else {
             return null;
         }
+    }
+
+
+    @Pointcut("execution(@com.atom.aop.aspectj.VPermission void *(..))")
+    public void method_sync() {
+    }
+
+    @Around("method_sync() && @annotation(permission)")
+    public void aroundJoinPoint(final ProceedingJoinPoint joinPoint, VPermission permission) throws Throwable {
+        PermissionUtils
+                .permission(permission.value())
+                .callback(new PermissionUtils.FullCallback() {
+                    @Override
+                    public void onGranted(List<String> permissionsGranted) {
+                        try {
+                            //获得权限，执行原方法
+                            joinPoint.proceed();
+                        } catch (Throwable e) {
+                            e.printStackTrace();
+                            Logger.e(e);
+                        }
+                    }
+                    @Override
+                    public void onDenied(List<String> permissionsDeniedForever, List<String> permissionsDenied) {
+
+                        SAOP.getOnPermissionDeniedListener().onDenied(permissionsDenied);
+                    }
+                }).request();
     }
 }
 

@@ -8,8 +8,9 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 
-@Aspect
+//@Aspect
 public class VDialogAspectJ {
+
     //..,android.app.Activity,..
     @Pointcut("execution(@com.atom.aop.aspectj.VDialog !synthetic void *(.. , com.atom.aop.enums.DialogCallback , ..))")
     public void method() {
@@ -29,17 +30,19 @@ public class VDialogAspectJ {
         } else {
             DialogRunType type = vDialog.type();
             if (type == DialogRunType.runBefore) {
-                callback.dialogShow(isSure -> {
-                    if(isSure){
+                DialogCallback finalCallback = callback;
+                finalCallback.dialogShow(isSure -> {
+                    if (isSure) {
                         try {
-                            joinPoint.proceed() ;
+                            joinPoint.proceed();
                         } catch (Throwable throwable) {
                             throwable.printStackTrace();
                         }
                     }
-                }) ;
+                    finalCallback.dialogResult(isSure);
+                });
             } else {
-                callback.dialogShow(null , joinPoint.proceed());
+                callback.dialogShow(callback::dialogResult, joinPoint.proceed());
             }
         }
     }

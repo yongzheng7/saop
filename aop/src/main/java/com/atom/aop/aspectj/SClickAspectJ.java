@@ -29,7 +29,7 @@ import org.aspectj.lang.annotation.Pointcut;
 /**
  * 单次和多次并存
  */
-@Aspect
+//@Aspect
 public class SClickAspectJ {
 
     @Pointcut("execution(@com.atom.aop.aspectj.SClick !synthetic * *(..))")

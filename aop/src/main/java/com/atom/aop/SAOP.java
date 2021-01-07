@@ -45,7 +45,6 @@ public final class SAOP {
         Logger.setLogger(logger);
     }
 
-
     /**
      * 权限申请被拒绝的监听
      */

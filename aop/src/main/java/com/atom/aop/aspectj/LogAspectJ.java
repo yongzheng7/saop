@@ -20,32 +20,32 @@ import java.util.concurrent.TimeUnit;
  * 埋点记录
  */
 @Aspect
-public class DLogAspectJ {
+public class LogAspectJ {
 
-    @Pointcut("within(@com.atom.aop.aspectj.DLog *)")
+    @Pointcut("within(@com.atom.aop.aspectj._Log *)")
     public void type() {
     } //方法切入点
 
 
-    @Pointcut("execution(@com.atom.aop.aspectj.DLog !synthetic * *(..))")
+    @Pointcut("execution(@com.atom.aop.aspectj._Log !synthetic * *(..))")
     public void method() {
     } //方法切入点
 
-    @Pointcut("execution(@com.atom.aop.aspectj.DLog !synthetic *.new(..))")
+    @Pointcut("execution(@com.atom.aop.aspectj._Log !synthetic *.new(..))")
     public void constructor() {
     } //构造器切入点
 
-    @Around("(type() || constructor() || method()) && @annotation(dLog)")
-    public Object logAndExecute(ProceedingJoinPoint joinPoint, DLog dLog) throws Throwable {
+    @Around("(type() || constructor() || method()) && @annotation(log)")
+    public Object logAndExecute(ProceedingJoinPoint joinPoint, _Log log) throws Throwable {
         Logger.e("DLogAspectJ -------------> start");
-        if (dLog.type() != LogType.after) {
-            enterMethod(joinPoint, dLog);
+        if (log.type() != LogType.after) {
+            enterMethod(joinPoint, log);
         }
         long startNanos = System.nanoTime();
         Object result = joinPoint.proceed();
         long stopNanos = System.nanoTime();
-        if (dLog.type() != LogType.before) {
-            exitMethod(joinPoint, dLog, result, TimeUnit.NANOSECONDS.toMillis(stopNanos - startNanos));
+        if (log.type() != LogType.before) {
+            exitMethod(joinPoint, log, result, TimeUnit.NANOSECONDS.toMillis(stopNanos - startNanos));
         }
         Logger.e("DLogAspectJ -------------> end");
         return result;
@@ -55,7 +55,7 @@ public class DLogAspectJ {
     /**
      * 方法执行前切入
      */
-    private void enterMethod(ProceedingJoinPoint joinPoint, DLog log) {
+    private void enterMethod(ProceedingJoinPoint joinPoint, _Log log) {
         if (!Logger.isDebug()) {
             return;
         }
@@ -97,7 +97,7 @@ public class DLogAspectJ {
      * @param result       方法执行后的结果
      * @param lengthMillis 执行方法所需要的时间
      */
-    private void exitMethod(ProceedingJoinPoint joinPoint, DLog log, Object result, long lengthMillis) {
+    private void exitMethod(ProceedingJoinPoint joinPoint, _Log log, Object result, long lengthMillis) {
         if (!Logger.isDebug()) {
             return;
         }
