@@ -9,14 +9,14 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 
 @Aspect
-public class SDialogAspectJ {
+public class RDialogAspectJ {
     //..,android.app.Activity,..
-    @Pointcut("execution(@com.atom.aop.aspectj.SDialog !synthetic * *(.. , com.atom.aop.enums.DialogCallback , ..))")
+    @Pointcut("execution(@com.atom.aop.aspectj.RDialog !synthetic * *(.. , com.atom.aop.enums.DialogCallback , ..))")
     public void method() {
     }  //方法切入点
 
-    @Around("method() && @annotation(sDialog)")
-    public Object dialogAroundJoinPoint(ProceedingJoinPoint joinPoint, SDialog sDialog) throws Throwable {
+    @Around("method() && @annotation(rDialog)")
+    public Object dialogAroundJoinPoint(ProceedingJoinPoint joinPoint, RDialog rDialog) throws Throwable {
         DialogCallback callback = null;
         for (Object arg : joinPoint.getArgs()) {
             if (arg instanceof DialogCallback) {
@@ -27,9 +27,11 @@ public class SDialogAspectJ {
         if (callback == null) {
             return joinPoint.proceed();
         } else {
-            DialogRunType type = sDialog.type();
+            DialogRunType type = rDialog.type();
             if (type == DialogRunType.runBefore) {
-                if (callback.dialogShow()) {
+                final boolean[] result = {false};
+                result[0] = callback.dialogShow(isSure -> result[0] = isSure);
+                if (result[0]) {
                     return joinPoint.proceed();
                 }
                 return null;
@@ -39,7 +41,7 @@ public class SDialogAspectJ {
                     proceed = joinPoint.proceed();
                     return proceed;
                 } finally {
-                    callback.dialogShow(proceed);
+                    callback.dialogShow(null, proceed);
                 }
             }
         }

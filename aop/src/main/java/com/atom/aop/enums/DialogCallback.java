@@ -2,6 +2,9 @@ package com.atom.aop.enums;
 
 public interface DialogCallback {
 
-    boolean dialogShow(Object... result);
+    boolean dialogShow(DialogListener listener , Object... result);
 
+    interface DialogListener{
+        void select(boolean isSure) ;
+    }
 }

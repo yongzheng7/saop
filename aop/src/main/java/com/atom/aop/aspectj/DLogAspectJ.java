@@ -37,6 +37,7 @@ public class DLogAspectJ {
 
     @Around("(type() || constructor() || method()) && @annotation(dLog)")
     public Object logAndExecute(ProceedingJoinPoint joinPoint, DLog dLog) throws Throwable {
+        Logger.e("DLogAspectJ -------------> start");
         if (dLog.type() != LogType.after) {
             enterMethod(joinPoint, dLog);
         }
@@ -46,6 +47,7 @@ public class DLogAspectJ {
         if (dLog.type() != LogType.before) {
             exitMethod(joinPoint, dLog, result, TimeUnit.NANOSECONDS.toMillis(stopNanos - startNanos));
         }
+        Logger.e("DLogAspectJ -------------> end");
         return result;
     }
 
