@@ -96,7 +96,7 @@ public final class DialogUtils {
         @Override
         public void finish() {
             super.finish();
-            SAOP.getHandler().post(() -> {
+            SAOP.handler().post(() -> {
                 if (sInstance != null) {
                     sInstance.requestCallback();
                 }
