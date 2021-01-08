@@ -9,14 +9,14 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 
 import com.atom.aop.SAOP;
-import com.atom.aop.aspectj.VDialog;
+import com.atom.aop.aspectj.AopDialog;
 
 
 public final class DialogUtils {
 
     private static DialogUtils sInstance;
     private DialogCallback mDialogCallback;
-    private VDialog dialog;
+    private AopDialog dialog;
 
     public static DialogUtils dialog() {
         return new DialogUtils();
@@ -31,7 +31,7 @@ public final class DialogUtils {
         return this;
     }
 
-    public DialogUtils set(final VDialog dialog) {
+    public DialogUtils set(final AopDialog dialog) {
         this.dialog = dialog ;
         return this;
     }

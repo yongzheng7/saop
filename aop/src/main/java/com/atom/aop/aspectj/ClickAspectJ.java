@@ -32,12 +32,12 @@ import org.aspectj.lang.annotation.Pointcut;
 @Aspect
 public class ClickAspectJ {
 
-    @Pointcut("execution(@com.atom.aop.aspectj._Click !synthetic * *(..))")
+    @Pointcut("execution(@com.atom.aop.aspectj.AopClick !synthetic * *(..))")
     public void method() {
     }  //方法切入点
 
     @Around("method() && @annotation(click)")//在连接点进行方法替换
-    public Object aroundJoinPoint(ProceedingJoinPoint joinPoint, _Click click) throws Throwable {
+    public Object aroundJoinPoint(ProceedingJoinPoint joinPoint, AopClick click) throws Throwable {
         View view = null;
         for (Object arg : joinPoint.getArgs()) {
             if (arg instanceof View) {
@@ -71,7 +71,7 @@ public class ClickAspectJ {
     /**
      * 是否是快速点击
      */
-    public static boolean isCanClick(View v, _Click click) {
+    public static boolean isCanClick(View v, AopClick click) {
         long currTime = System.currentTimeMillis();
         int currViewId = v.getId();
         if (currViewId != sLastClickViewId) {

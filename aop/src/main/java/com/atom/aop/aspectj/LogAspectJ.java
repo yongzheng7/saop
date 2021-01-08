@@ -22,21 +22,21 @@ import java.util.concurrent.TimeUnit;
 @Aspect
 public class LogAspectJ {
 
-    @Pointcut("within(@com.atom.aop.aspectj._Log *)")
+    @Pointcut("within(@com.atom.aop.aspectj.AopLog *)")
     public void type() {
     } //方法切入点
 
 
-    @Pointcut("execution(@com.atom.aop.aspectj._Log !synthetic * *(..))")
+    @Pointcut("execution(@com.atom.aop.aspectj.AopLog !synthetic * *(..))")
     public void method() {
     } //方法切入点
 
-    @Pointcut("execution(@com.atom.aop.aspectj._Log !synthetic *.new(..))")
+    @Pointcut("execution(@com.atom.aop.aspectj.AopLog !synthetic *.new(..))")
     public void constructor() {
     } //构造器切入点
 
     @Around("(type() || constructor() || method()) && @annotation(log)")
-    public Object logAndExecute(ProceedingJoinPoint joinPoint, _Log log) throws Throwable {
+    public Object logAndExecute(ProceedingJoinPoint joinPoint, AopLog log) throws Throwable {
         if (log.type() != LogType.after) {
             enterMethod(joinPoint, log);
         }
@@ -53,7 +53,7 @@ public class LogAspectJ {
     /**
      * 方法执行前切入
      */
-    private void enterMethod(ProceedingJoinPoint joinPoint, _Log log) {
+    private void enterMethod(ProceedingJoinPoint joinPoint, AopLog log) {
         if (!Logger.isDebug()) {
             return;
         }
@@ -95,7 +95,7 @@ public class LogAspectJ {
      * @param result       方法执行后的结果
      * @param lengthMillis 执行方法所需要的时间
      */
-    private void exitMethod(ProceedingJoinPoint joinPoint, _Log log, Object result, long lengthMillis) {
+    private void exitMethod(ProceedingJoinPoint joinPoint, AopLog log, Object result, long lengthMillis) {
         if (!Logger.isDebug()) {
             return;
         }

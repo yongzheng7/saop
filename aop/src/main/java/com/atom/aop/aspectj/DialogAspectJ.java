@@ -13,17 +13,17 @@ import org.aspectj.lang.annotation.Pointcut;
 public class DialogAspectJ {
 
 
-    @Pointcut("execution(@com.atom.aop.aspectj.VDialog !synthetic *.new(..))")
+    @Pointcut("execution(@com.atom.aop.aspectj.AopDialog !synthetic *.new(..))")
     public void constructor() {
     }  //构造方法切入点
 
 
-    @Pointcut("execution(@com.atom.aop.aspectj.VDialog !synthetic * *(..))")
+    @Pointcut("execution(@com.atom.aop.aspectj.AopDialog !synthetic * *(..))")
     public void method() {
     }  //方法切入点
 
-    @Around("(method()||constructor()) && @annotation(dialog)")
-    public void syncDialogAroundJoinPoint(ProceedingJoinPoint joinPoint, VDialog dialog) throws Throwable {
+    @Around("( method() || constructor() ) && @annotation(dialog)")
+    public void syncDialogAroundJoinPoint(ProceedingJoinPoint joinPoint, AopDialog dialog) throws Throwable {
         // 获取方法中是否有DialogCallback回调
         DialogUtils.DialogCallback callback = null;
         for (Object arg : joinPoint.getArgs()) {

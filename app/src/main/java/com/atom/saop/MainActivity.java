@@ -3,17 +3,16 @@ package com.atom.saop;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
-import android.app.AlertDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-import com.atom.aop.aspectj.VPermission;
-import com.atom.aop.aspectj._Click;
-import com.atom.aop.aspectj._Log;
-import com.atom.aop.aspectj.VDialog;
-import com.atom.aop.aspectj._Permission;
+import com.atom.aop.aspectj.AopPermissionVoid;
+import com.atom.aop.aspectj.AopClick;
+import com.atom.aop.aspectj.AopLog;
+import com.atom.aop.aspectj.AopDialog;
+import com.atom.aop.aspectj.AopPermission;
 import com.atom.aop.enums.DialogRunType;
 import com.atom.aop.utils.DialogUtils;
 import com.atom.aop.utils.PermissionConsts;
@@ -21,7 +20,7 @@ import com.atom.aop.utils.log.Logger;
 
 import java.util.Date;
 
-@_Log(priority = Log.ERROR, tag = "MainActivity_init")
+@AopLog(priority = Log.ERROR, tag = "MainActivity_init")
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -125,14 +124,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /*------------ Log Test ------------*/
-    @_Log(priority = Log.ERROR, tag = "MainActivity")
+    @AopLog(priority = Log.ERROR, tag = "MainActivity")
     public void test_print_log(View view) {
         Logger.e("test_ show log by void -------------> start");
         Logger.e("test_ show log by void -------------> result [" + test() + "]");
         Logger.e("test_ show log by void -------------> end");
     }
 
-    @_Log(priority = Log.ERROR, tag = "MainActivity_result")
+    @AopLog(priority = Log.ERROR, tag = "MainActivity_result")
     public String test_print_log_by_return(View view) {
         Logger.e("test_ show log by return String -------------> start");
         long test = test();
@@ -143,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
 
     /*------------ Dialog Test ------------*/
     // 如果参数中没有DialogCallback 参数即便写上@VDialog也不起任何作用
-    @VDialog(type = DialogRunType.runBefore, title = "重要提示", message = "当前功能需要使用网络下载,请检查是否是流量,如果是则点击sure继续执行")
+    @AopDialog(type = DialogRunType.runBefore, title = "重要提示", message = "当前功能需要使用网络下载,请检查是否是流量,如果是则点击sure继续执行")
     public void test_dialog_before(View view) {
         Logger.e("test_ show log by void -------------> start");
         Logger.e("test_ show log by void -------------> result [" + test() + "]");
@@ -155,21 +154,21 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    @VDialog(type = DialogRunType.runBefore, title = "重要提示", message = "当前功能需要使用网络下载,请检查是否是流量,如果是则点击sure继续执行 , [同时还会回调callback]")
+    @AopDialog(type = DialogRunType.runBefore, title = "重要提示", message = "当前功能需要使用网络下载,请检查是否是流量,如果是则点击sure继续执行 , [同时还会回调callback]")
     public void test_dialog_before_by_callback(View view, DialogUtils.DialogCallback callback) {
         Logger.e("test_ show log by void -------------> start");
         Logger.e("test_ show log by void -------------> result [" + test() + "]");
         Logger.e("test_ show log by void -------------> end");
     }
 
-    @VDialog(type = DialogRunType.runAfter, title = "重要提示", message = "当前下载完成,请退出后再进行刷新")
+    @AopDialog(type = DialogRunType.runAfter, title = "重要提示", message = "当前下载完成,请退出后再进行刷新")
     public void test_dialog_after(View view) {
         Logger.e("test_ show log by void -------------> start");
         Logger.e("test_ show log by void -------------> result [" + test() + "]");
         Logger.e("test_ show log by void -------------> end");
     }
 
-    @VDialog(type = DialogRunType.runAfter, title = "重要提示可带执行", message = "当前下载完成,点击sure后执行A操作  点击Cancel执行B操作")
+    @AopDialog(type = DialogRunType.runAfter, title = "重要提示可带执行", message = "当前下载完成,点击sure后执行A操作  点击Cancel执行B操作")
     public void test_dialog_after_by_callback(View view, DialogUtils.DialogCallback callback) {
         Logger.e("test_ show log by void -------------> start");
         Logger.e("test_ show log by void -------------> result [" + test() + "]");
@@ -181,7 +180,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     class Test {
-        @VDialog(type = DialogRunType.runBefore, title = "重要提示可带执行", message = "当前下载完成,点击sure后执行A操作  点击Cancel执行B操作")
+        @AopDialog(type = DialogRunType.runBefore, title = "重要提示可带执行", message = "当前下载完成,点击sure后执行A操作  点击Cancel执行B操作")
         public Test() {
             Logger.e("test_ show log by void -------------> start");
             Logger.e("test_ show log by void -------------> result [" + test() + "]");
@@ -189,18 +188,18 @@ public class MainActivity extends AppCompatActivity {
         }
     }
     /*------------ Permission Test ------------*/
-    @_Permission({PermissionConsts.CAMERA, PermissionConsts.LOCATION})
+    @AopPermission({PermissionConsts.CAMERA, PermissionConsts.LOCATION})
     public void test_permission_async_void(View view) {
         Logger.e("test_ show permission by void -------------> result [" + test() + "]");
     }
 
-    @_Permission({PermissionConsts.PHONE, Manifest.permission.RECORD_AUDIO, Manifest.permission.READ_EXTERNAL_STORAGE})
+    @AopPermission({PermissionConsts.PHONE, Manifest.permission.RECORD_AUDIO, Manifest.permission.READ_EXTERNAL_STORAGE})
     public String test_permission_async_return(View view) {
         Logger.e("test_ show permission by String -------------> result [" + test() + "]");
         return "test_ show permission by String -------------> ";
     }
 
-    @VPermission({Manifest.permission.READ_CONTACTS, Manifest.permission.SEND_SMS})
+    @AopPermissionVoid({Manifest.permission.READ_CONTACTS, Manifest.permission.SEND_SMS})
     public void test_permission_sync_void(View view) {
         Logger.e("test_ show permission by void sync-------------> result [" + test() + "]");
     }
@@ -209,14 +208,14 @@ public class MainActivity extends AppCompatActivity {
     /*------------ Click Test ------------*/
     long curr = System.currentTimeMillis();
 
-    @_Click()
+    @AopClick()
     public void test_click_return_void_single(View view) {
         long temp = System.currentTimeMillis();
         Logger.e("test_ show click by  void -------------> result [" + test() + "]   [>1000]time = " + (temp - curr));
         curr = temp;
     }
 
-    @_Click(value = 2000)
+    @AopClick(value = 2000)
     public String test_click_return_string_single(View view) {
         long temp = System.currentTimeMillis();
         Logger.e("test_ show click by  void -------------> result [" + test() + "]   [>2000]time = " + (temp - curr));
@@ -225,14 +224,14 @@ public class MainActivity extends AppCompatActivity {
         return "test_ show click by String -------------> [>2000] time =" + space;
     }
 
-    @_Click(number = 2)
+    @AopClick(number = 2)
     public void test_click_return_void_some(View view) {
         long temp = System.currentTimeMillis();
         Logger.e("test_ show click by  void -------------> result  [> 2 * 500]time = " + (temp - curr));
         curr = temp;
     }
 
-    @_Click(number = 3, interval = 200)
+    @AopClick(number = 3, interval = 200)
     public String test_click_return_string_some(View view) {
         long temp = System.currentTimeMillis();
         Logger.e("test_ show click by  void -------------> result  [> 3 * 200]time = " + (temp - curr));

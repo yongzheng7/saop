@@ -21,12 +21,12 @@ import java.util.List;
 @Aspect
 public class PermissionAspectJ {
 
-    @Pointcut("execution(@com.atom.aop.aspectj._Permission * *(..))")
+    @Pointcut("execution(@com.atom.aop.aspectj.AopPermission * *(..))")
     public void method_async() {
     }  //方法切入点
 
     @Around("method_async() && @annotation(permission)")
-    public Object aroundJoinPoint(final ProceedingJoinPoint joinPoint, _Permission permission) throws Throwable {
+    public Object aroundJoinPoint(final ProceedingJoinPoint joinPoint, AopPermission permission) throws Throwable {
         final boolean[] result = {false};
         PermissionUtils
                 .permission(permission.value())
@@ -51,12 +51,12 @@ public class PermissionAspectJ {
     }
 
 
-    @Pointcut("execution(@com.atom.aop.aspectj.VPermission void *(..))")
+    @Pointcut("execution(@com.atom.aop.aspectj.AopPermissionVoid void *(..))")
     public void method_sync() {
     }
 
     @Around("method_sync() && @annotation(permission)")
-    public void aroundJoinPoint(final ProceedingJoinPoint joinPoint, VPermission permission) throws Throwable {
+    public void aroundJoinPoint(final ProceedingJoinPoint joinPoint, AopPermissionVoid permission) {
         PermissionUtils
                 .permission(permission.value())
                 .callback(new PermissionUtils.FullCallback() {
