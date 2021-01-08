@@ -11,8 +11,12 @@ import java.lang.annotation.Target;
  * 防止View被连续点击
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.METHOD)
+@Target({ElementType.METHOD , ElementType.CONSTRUCTOR})
 public @interface VDialog {
 
     DialogRunType type();
+
+    String title();
+
+    String message();
 }

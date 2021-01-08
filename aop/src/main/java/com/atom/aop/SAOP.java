@@ -2,6 +2,8 @@ package com.atom.aop;
 
 import android.app.Application;
 import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
 
 import androidx.annotation.NonNull;
 
@@ -10,12 +12,14 @@ import com.atom.aop.utils.StringUtils;
 import com.atom.aop.utils.log.ILogger;
 import com.atom.aop.utils.log.Logger;
 
+
 public final class SAOP {
 
     private static Context sContext;
-
+    private static Handler handler ;
     public static void init(Application application) {
         sContext = application.getApplicationContext();
+        handler = new Handler(Looper.getMainLooper())  ;
     }
 
     public static Context getContext() {
@@ -23,6 +27,13 @@ public final class SAOP {
             throw new ExceptionInInitializerError("请先在全局Application中调用 SAOP.init() 初始化！");
         }
         return sContext;
+    }
+
+    public static Handler getHandler() {
+        if (handler == null) {
+            throw new ExceptionInInitializerError("请先在全局Application中调用 SAOP.init() 初始化！");
+        }
+        return handler;
     }
 
     public static void debug(boolean isDebug) {
