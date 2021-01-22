@@ -12,8 +12,9 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/aop" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/saop-plugin" />
+            <option value="$PROJECT_DIR$/saop-runtime" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

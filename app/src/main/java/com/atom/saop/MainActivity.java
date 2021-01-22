@@ -20,7 +20,6 @@ import com.atom.aop.utils.log.Logger;
 
 import java.util.Date;
 
-@AopLog(priority = Log.ERROR, tag = "MainActivity_init")
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -29,8 +28,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         findViewById(R.id.test_log).setOnClickListener(v -> {
-            test_print_log(v);
-            Logger.e(test_print_log_by_return(v));
+           // test_print_log(v);
+            test_print_log_target(v);
+            //Logger.e(test_print_log_by_return(v));
         });
 
         // 同步Dialog , 需要确定才能执行 , 一行注解搞定 , 限制被注解函数 返回void 否则注解无效
@@ -137,6 +137,14 @@ public class MainActivity extends AppCompatActivity {
         long test = test();
         Logger.e("test_ show log by return String -------------> end");
         return "test_ show log by return String -------------> return [ result = " + test + "]";
+    }
+
+
+
+    public void test_print_log_target(View view) {
+        Logger.e("test_ show log by void -------------> start");
+        Logger.e("test_ show log by void -------------> result [" + test() + "]");
+        Logger.e("test_ show log by void -------------> end");
     }
 
 
