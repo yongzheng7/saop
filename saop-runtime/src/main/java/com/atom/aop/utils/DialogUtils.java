@@ -9,14 +9,16 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 
 import com.atom.aop.SAOP;
-import com.atom.aop.aspectj.AopDialog;
 
-
+/**
+ * 弹窗相关工具类
+ */
 public final class DialogUtils {
 
     private static DialogUtils sInstance;
     private DialogCallback mDialogCallback;
-    private AopDialog dialog;
+    private String title  ;
+    private String message ;
 
     public static DialogUtils dialog() {
         return new DialogUtils();
@@ -31,13 +33,19 @@ public final class DialogUtils {
         return this;
     }
 
-    public DialogUtils set(final AopDialog dialog) {
-        this.dialog = dialog ;
+    public DialogUtils setTitle(final String dialogTitle) {
+        this.title = dialogTitle;
+        return this;
+    }
+    public DialogUtils setMessage(final String dialogMessage) {
+        this.message = dialogMessage;
         return this;
     }
 
     public void show() {
-        DialogActivity.start(SAOP.getContext());
+        if(mDialogCallback.isShow(null)){
+            DialogActivity.start(SAOP.getContext());
+        }
     }
 
     private volatile Boolean isSure = null;
@@ -70,8 +78,8 @@ public final class DialogUtils {
             final Boolean[] isSure = new Boolean[1];
             // 请求权限 , 弹出dialog
             AlertDialog alertDialog = new AlertDialog.Builder(this)
-                    .setTitle(sInstance.dialog.title())
-                    .setMessage(sInstance.dialog.message())
+                    .setTitle(sInstance.title)
+                    .setMessage(sInstance.message)
                     .setPositiveButton("Sure", (dialog, which) -> {
                         isSure[0] = true;
                         dialog.dismiss();
@@ -105,6 +113,8 @@ public final class DialogUtils {
     }
 
     public interface DialogCallback {
+
+        boolean isShow(@Nullable Object result);
 
         void onSure();
 

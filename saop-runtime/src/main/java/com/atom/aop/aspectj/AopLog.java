@@ -7,7 +7,9 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-
+/**
+ * 用于进行测试进行多长的时间
+ */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.METHOD, ElementType.CONSTRUCTOR})
 public @interface AopLog {

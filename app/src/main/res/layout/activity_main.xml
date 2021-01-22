@@ -64,33 +64,115 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:padding="10dp">
-
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Dialog Before"
+                        android:textSize="25dp" />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="5dp" />
+                    <TextView
+                        android:id="@+id/test_dialog_construction_before"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="构造方法上的Dialog"
+                        android:textSize="20dp" />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="5dp" />
                     <TextView
                         android:id="@+id/test_dialog_void_before"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="显示dialog[方法之前显示,且同步]"
+                        android:text="Return[Void] , Param[View]"
                         android:textSize="20dp" />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="5dp" />
+                    <TextView
+                        android:id="@+id/test_dialog_void_before_callback"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Return[Void] , Param[View , Callback]"
+                        android:textSize="20dp" />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="5dp" />
+                    <TextView
+                        android:id="@+id/test_dialog_string_before"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Return[String] , Param[View]"
+                        android:textSize="20dp" />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="5dp" />
+                    <TextView
+                        android:id="@+id/test_dialog_string_before_callback"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Return[String] , Param[View , Callback]"
+                        android:textSize="20dp" />
+
+
+
+
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="10dp" />
 
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Dialog After"
+                        android:textSize="25dp" />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="5dp" />
+                    <TextView
+                        android:id="@+id/test_dialog_construction_after"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="构造方法上的Dialog"
+                        android:textSize="20dp" />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="5dp" />
                     <TextView
                         android:id="@+id/test_dialog_void_after"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="显示dialog[方法之后显示,且同步返回选择结果]"
+                        android:text="Return[Void] , Param[View]"
                         android:textSize="20dp" />
                     <View
                         android:layout_width="match_parent"
-                        android:layout_height="10dp" />
-
+                        android:layout_height="5dp" />
                     <TextView
-                        android:id="@+id/test_dialog_return_before"
+                        android:id="@+id/test_dialog_void_after_callback"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="显示dialog[构造方法]"
+                        android:text="Return[Void] , Param[View , Callback]"
                         android:textSize="20dp" />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="5dp" />
+                    <TextView
+                        android:id="@+id/test_dialog_string_after"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Return[String] , Param[View]"
+                        android:textSize="20dp" />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="5dp" />
+                    <TextView
+                        android:id="@+id/test_dialog_string_after_callback"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Return[String] , Param[View , Callback]"
+                        android:textSize="20dp" />
+
                 </LinearLayout>
 
                 <View
@@ -167,10 +249,32 @@
                         android:layout_height="5dp" />
 
                     <TextView
-                        android:id="@+id/test_click_some"
+                        android:id="@+id/test_click_some_double"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="允许重复点击[多次生效一次,双击或者三]"
+                        android:text="允许重复点击[双击Void]"
+                        android:textSize="20dp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="5dp" />
+
+                    <TextView
+                        android:id="@+id/test_click_some_three"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="允许重复点击[三击String]"
+                        android:textSize="20dp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="5dp" />
+
+                    <TextView
+                        android:id="@+id/test_click_some_infinite"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="允许重复点击[无穷]"
                         android:textSize="20dp" />
                 </LinearLayout>
 

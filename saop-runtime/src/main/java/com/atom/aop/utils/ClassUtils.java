@@ -7,6 +7,9 @@ import org.aspectj.lang.Signature;
 import org.aspectj.lang.reflect.CodeSignature;
 import org.aspectj.lang.reflect.MethodSignature;
 
+/**
+ * class相关工具类
+ */
 public final class ClassUtils {
 
     public static String getClassName(Class<?> cls) {

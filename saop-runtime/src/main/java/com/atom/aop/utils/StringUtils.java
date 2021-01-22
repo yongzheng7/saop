@@ -24,9 +24,6 @@ import java.util.Set;
 
 /**
  * 将Object转化为String的工具类
- *
- * @author xuexiang
- * @date 2018/4/7 下午7:01
  */
 public final class StringUtils {
 

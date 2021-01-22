@@ -18,6 +18,7 @@ package com.atom.aop.aspectj;
 
 import android.view.View;
 
+import com.atom.aop.SAOP;
 import com.atom.aop.utils.ClassUtils;
 import com.atom.aop.utils.log.Logger;
 
@@ -36,7 +37,7 @@ public class ClickAspectJ {
     public void method() {
     }  //方法切入点
 
-    @Around("method() && @annotation(click)")//在连接点进行方法替换
+    @Around("method() && @annotation(click)")
     public Object aroundJoinPoint(ProceedingJoinPoint joinPoint, AopClick click) throws Throwable {
         View view = null;
         for (Object arg : joinPoint.getArgs()) {
@@ -49,7 +50,14 @@ public class ClickAspectJ {
             if (isCanClick(view, click)) {
                 return joinPoint.proceed();
             } else {
-                Logger.e(ClassUtils.getMethodDescribeInfo(joinPoint) + ":发生快速点击，View id:" + view.getId());
+                if (Logger.isDebug()) {
+                    int number = click.number();
+                    if (number == 1) {
+                        Logger.e(ClassUtils.getMethodDescribeInfo(joinPoint) + "模式:预防多次点击   ，View id:" + view.getId());
+                    } else {
+                        Logger.e(ClassUtils.getMethodDescribeInfo(joinPoint) + "模式:允许多次点击 ," + number + "次生效，View id:" + view.getId());
+                    }
+                }
             }
         }
         return null;
@@ -85,12 +93,10 @@ public class ClickAspectJ {
                 sLastClickTime = currTime;
                 return true;
             }
-            return false;
         } else {
             if (sLastClickTime == 0) {
                 sClickNumber++;
                 sLastClickTime = currTime;
-                return false;
             } else {
                 long interval = currTime - sLastClickTime;
                 if (interval < click.interval()) {
@@ -107,8 +113,8 @@ public class ClickAspectJ {
                     sLastClickTime = 0;
                     return true;
                 }
-                return false;
             }
         }
+        return false;
     }
 }
