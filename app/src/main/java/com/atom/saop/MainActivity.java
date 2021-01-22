@@ -1,6 +1,8 @@
 package com.atom.saop;
 
+import androidx.annotation.MainThread;
 import androidx.annotation.Nullable;
+import androidx.annotation.WorkerThread;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
@@ -13,10 +15,12 @@ import com.atom.aop.aspectj.AopDialogAfter;
 import com.atom.aop.aspectj.AopDialogBefore;
 import com.atom.aop.aspectj.AopException;
 import com.atom.aop.aspectj.AopIntercept;
+import com.atom.aop.aspectj.AopMainThread;
 import com.atom.aop.aspectj.AopPermissionVoid;
 import com.atom.aop.aspectj.AopClick;
 import com.atom.aop.aspectj.AopLog;
 import com.atom.aop.aspectj.AopPermission;
+import com.atom.aop.aspectj.AopWorkThread;
 import com.atom.aop.utils.DialogUtils;
 import com.atom.aop.utils.PermissionConsts;
 import com.atom.aop.utils.log.Logger;
@@ -171,6 +175,21 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // Thread
+        findViewById(R.id.test_ui_thread).setOnClickListener(
+                v -> new Thread(this::test_ui_thread).start()
+        );
+        findViewById(R.id.test_work_thread).setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Logger.e(test_work_thread());
+                    }
+                }
+        );
+        findViewById(R.id.test_ui_and_work_thread).setOnClickListener(
+                v -> new Thread(this::test_ui_thread).start()
+        );
     }
 
     private long test() {
@@ -424,6 +443,34 @@ public class MainActivity extends AppCompatActivity {
 
     @AopIntercept({2})
     public String test_Intercept_return_2() throws Exception {
+        Logger.e("测试自定义拦截器  2 ");
+        int value = (int) (Math.random() * 10);
+        if (value > 5) {
+            throw new Exception("我是一个小异常");
+        }
+        return "我是一个小正常";
+    }
+
+    @AopMainThread(delayed = 3000)
+    public void test_ui_thread() {
+        Logger.e("UI线程测试开始 -->" +Thread.currentThread().getName());
+        View viewById = findViewById(R.id.hello);
+        if (viewById instanceof TextView) {
+            final TextView text = (TextView) viewById;
+            text.setText("Hello UI Thread" + (new Date(System.currentTimeMillis()).toString()));
+        }
+    }
+
+    @AopWorkThread
+    public String test_work_thread() {
+        Logger.e("Work线程测试开始-->" +Thread.currentThread().getName());
+        int value = (int) (Math.random() * 10);
+        test_ui_thread() ;
+        return "我是一个小正常"+value;
+    }
+
+    @AopIntercept({2})
+    public String test_ui_work_thread() throws Exception {
         Logger.e("测试自定义拦截器  2 ");
         int value = (int) (Math.random() * 10);
         if (value > 5) {

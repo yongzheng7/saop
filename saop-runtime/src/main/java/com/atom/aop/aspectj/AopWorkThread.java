@@ -13,7 +13,5 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 public @interface AopWorkThread {
-
     ThreadType value() default ThreadType.Fixed;
-
 }

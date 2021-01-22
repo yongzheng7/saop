@@ -10,6 +10,6 @@ import java.lang.annotation.Target;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-public @interface AopUIThread {
+public @interface AopMainThread {
     long delayed() default 0;
 }

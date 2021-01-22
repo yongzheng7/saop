@@ -10,14 +10,14 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 
 @Aspect
-public class UIThreadAspectJ {
+public class MainThreadAspectJ {
 
-    @Pointcut("execution(@com.atom.aop.aspectj.AopUIThread !synthetic void *(..))")
+    @Pointcut("execution(@com.atom.aop.aspectj.AopMainThread !synthetic void *(..))")
     public void method() {
     }  //方法切入点
 
     @Around("method() && @annotation(uiThread)")//在连接点进行方法替换
-    public void aroundJoinPoint(final ProceedingJoinPoint joinPoint, AopUIThread uiThread) throws Throwable {
+    public void aroundJoinPoint(final ProceedingJoinPoint joinPoint, AopMainThread uiThread) throws Throwable {
         long delayedTime = uiThread.delayed() < 0 ? 0 : uiThread.delayed();
         if (Looper.getMainLooper() == Looper.myLooper()) {
             if (delayedTime == 0) {

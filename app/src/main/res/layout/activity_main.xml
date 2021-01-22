@@ -47,6 +47,49 @@
                         android:layout_height="wrap_content"
                         android:text="打印Log[具体请看Logcat]"
                         android:textSize="20dp" />
+                </LinearLayout><View
+                android:layout_width="match_parent"
+                android:layout_height="3dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="UI Work Thread"
+                    android:textSize="25dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="10dp">
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="5dp" />
+                    <TextView
+                        android:id="@+id/test_ui_thread"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="测试ui线程..."
+                        android:textSize="20dp" />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="5dp" />
+                    <TextView
+                        android:id="@+id/test_work_thread"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="测试work线程..."
+                        android:textSize="20dp" />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="5dp" />
+                    <TextView
+                        android:id="@+id/test_ui_and_work_thread"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="测试ui线程和work线程..."
+                        android:textSize="20dp" />
+
                 </LinearLayout>
 
                 <View
