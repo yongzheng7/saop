@@ -19,9 +19,13 @@ package com.atom.saop;
 import android.app.Application;
 
 import com.atom.aop.SAOP;
+import com.atom.aop.api.ExceptionHandler;
+import com.atom.aop.api.InterceptHandler;
 import com.atom.aop.utils.PermissionUtils;
 import com.atom.aop.utils.StringUtils;
 import com.atom.aop.utils.log.Logger;
+
+import org.aspectj.lang.JoinPoint;
 
 import java.util.List;
 
@@ -49,6 +53,22 @@ public class App extends Application {
                 String s = StringUtils.listToString(permissionsDenied);
                 Logger.e("权限就是没有 自己跳转去申请吧" + s);
             }
+        });
+
+        SAOP.setExceptionHandler((flag, throwable) -> throwable.getLocalizedMessage() + " --- > 发生异常啦, 我看到了 , 给你一个正常的你去完把");
+
+        SAOP.setInterceptHandler((type, joinPoint) -> {
+            switch (type) {
+                case 1: {
+                    Logger.e("我这个拦截器 啥也不干 , 我就看看 算是个打个日志啥的" );
+                    break;
+                }
+                case 2: {
+                    Logger.e("我这个拦截器 , 不许过 , 我拦截了" );
+                    return true ;
+                }
+            }
+            return false;
         });
     }
 }

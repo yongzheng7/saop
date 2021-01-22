@@ -13,4 +13,6 @@ import java.lang.annotation.Target;
 @Target({ElementType.TYPE, ElementType.METHOD, ElementType.CONSTRUCTOR})
 public @interface AopIntercept {
     int[] value();
+
+    boolean sort() default false;
 }

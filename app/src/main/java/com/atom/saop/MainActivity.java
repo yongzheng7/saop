@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 import com.atom.aop.aspectj.AopDialogAfter;
 import com.atom.aop.aspectj.AopDialogBefore;
+import com.atom.aop.aspectj.AopException;
+import com.atom.aop.aspectj.AopIntercept;
 import com.atom.aop.aspectj.AopPermissionVoid;
 import com.atom.aop.aspectj.AopClick;
 import com.atom.aop.aspectj.AopLog;
@@ -20,6 +22,8 @@ import com.atom.aop.utils.PermissionConsts;
 import com.atom.aop.utils.log.Logger;
 
 import java.util.Date;
+import java.util.Random;
+import java.util.stream.DoubleStream;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -126,6 +130,46 @@ public class MainActivity extends AppCompatActivity {
             Logger.e(test_click_return_string_some_all(v));
         });
 
+        // exception
+        findViewById(R.id.test_exception).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    String s = test_exception_return();
+                    if (s != null) {
+                        Logger.e(s);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        // Intercept
+        findViewById(R.id.test_Intercept).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    String s = test_Intercept_return_1();
+                    if (s != null) {
+                        Logger.e(s);
+                    }
+                    s = test_Intercept_return_1_2();
+                    if (s != null) {
+                        Logger.e(s);
+                    }
+                    s = test_Intercept_return_2_1();
+                    if (s != null) {
+                        Logger.e(s);
+                    }
+                    s = test_Intercept_return_2();
+                    if (s != null) {
+                        Logger.e(s);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
 
     }
 
@@ -337,5 +381,54 @@ public class MainActivity extends AppCompatActivity {
         long space = temp - curr;
         curr = temp;
         return "test_ show click by String -------------> [>2000] time =" + space;
+    }
+
+    @AopException
+    public String test_exception_return() throws Exception {
+        int value = (int) (Math.random() * 10);
+        if (value > 5) {
+            throw new Exception("我是一个小异常");
+        }
+        return "我是一个小正常";
+    }
+
+    @AopIntercept({1})
+    public String test_Intercept_return_1() throws Exception {
+        Logger.e("测试自定义拦截器  1 ");
+        int value = (int) (Math.random() * 10);
+        if (value > 5) {
+            throw new Exception("我是一个小异常");
+        }
+        return "我是一个小正常";
+    }
+
+    @AopIntercept({1, 2})
+    public String test_Intercept_return_1_2() throws Exception {
+        Logger.e("测试自定义拦截器  1 2");
+        int value = (int) (Math.random() * 10);
+        if (value > 5) {
+            throw new Exception("我是一个小异常");
+        }
+        return "我是一个小正常";
+    }
+
+    @AopIntercept(value = {2, 1} , sort = false)
+    public String test_Intercept_return_2_1() throws Exception {
+        Logger.e("测试自定义拦截器  2 1 ");
+        int value = (int) (Math.random() * 10);
+        if (value > 5) {
+            throw new Exception("我是一个小异常");
+        }
+        return "我是一个小正常";
+    }
+
+    @AopIntercept({2})
+    public String test_Intercept_return_2() throws Exception {
+        Logger.e("测试自定义拦截器  2 ");
+        int value = (int) (Math.random() * 10);
+        if (value > 5) {
+            throw new Exception("我是一个小异常");
+        }
+        return "我是一个小正常";
     }
 }

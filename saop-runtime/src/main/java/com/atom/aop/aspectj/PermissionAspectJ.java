@@ -12,11 +12,7 @@ import org.aspectj.lang.annotation.Pointcut;
 import java.util.List;
 
 /**
- * <pre>
- *     desc   : 申请系统权限切片，根据注解值申请所需运行权限
- *     author : xuexiang
- *     time   : 2018/4/22 下午8:50
- * </pre>
+ * 申请系统权限切片，根据注解值申请所需运行权限
  */
 @Aspect
 public class PermissionAspectJ {
