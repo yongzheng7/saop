@@ -1,8 +1,7 @@
 package com.atom.saop;
 
-import androidx.annotation.MainThread;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.WorkerThread;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
@@ -11,23 +10,22 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-import com.atom.aop.aspectj.AopDialogAfter;
-import com.atom.aop.aspectj.AopDialogBefore;
-import com.atom.aop.aspectj.AopException;
-import com.atom.aop.aspectj.AopIntercept;
-import com.atom.aop.aspectj.AopMainThread;
-import com.atom.aop.aspectj.AopPermissionVoid;
-import com.atom.aop.aspectj.AopClick;
-import com.atom.aop.aspectj.AopLog;
-import com.atom.aop.aspectj.AopPermission;
-import com.atom.aop.aspectj.AopWorkThread;
-import com.atom.aop.utils.DialogUtils;
-import com.atom.aop.utils.PermissionConsts;
-import com.atom.aop.utils.log.Logger;
+import com.saop.annotation.AopClick;
+import com.saop.annotation.AopDialogAfter;
+import com.saop.annotation.AopDialogBefore;
+import com.saop.annotation.AopException;
+import com.saop.annotation.AopIntercept;
+import com.saop.annotation.AopLog;
+import com.saop.annotation.AopMainThread;
+import com.saop.annotation.AopPermission;
+import com.saop.annotation.AopPermissionVoid;
+import com.saop.annotation.AopWorkThread;
+import com.saop.api.DialogHandler;
+import com.saop.api.DialogParameters;
+import com.saop.core.utils.PermissionConsts;
+import com.saop.core.utils.log.Logger;
 
 import java.util.Date;
-import java.util.Random;
-import java.util.stream.DoubleStream;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -43,10 +41,10 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // 执行前Dialog @AopDialogBefore
-        DialogUtils.DialogCallback dialogCallbackBefore = new DialogUtils.DialogCallback() {
+        DialogHandler dialogCallbackBefore = new DialogHandler() {
 
             @Override
-            public boolean isShow(@Nullable Object result) {
+            public boolean isShow(@NonNull DialogParameters parameters, @Nullable Object result) {
                 if (result != null) {
                     Logger.e("after dialog 调用 isshow 返回结果了  , result = " + result.toString());
                 }
@@ -242,7 +240,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @AopDialogBefore(title = "执行前Dialog_Callback_Void", message = "当前功能需要使用网络下载,请检查是否是流量,如果是则点击sure继续执行 , [同时还会回调callback]")
-    public void test_dialog_before_by_callback_void(View view, DialogUtils.DialogCallback callback) {
+    public void test_dialog_before_by_callback_void(View view, DialogHandler callback) {
         Logger.e("test_ show log by void -------------> start");
         Logger.e("test_ show log by void -------------> result [" + test() + "]");
         Logger.e("test_ show log by void -------------> end");
@@ -263,7 +261,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @AopDialogBefore(title = "执行前Dialog_Callback_String", message = "当前功能需要使用网络下载,请检查是否是流量,如果是则点击sure继续执行 , [同时还会回调callback]")
-    public String test_dialog_string_before_callback(View view, DialogUtils.DialogCallback callback) {
+    public String test_dialog_string_before_callback(View view, DialogHandler callback) {
         Logger.e("test_ show log by void -------------> start");
         Logger.e("test_ show log by void -------------> result [" + test() + "]");
         Logger.e("test_ show log by void -------------> end");
@@ -297,7 +295,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @AopDialogAfter(title = "执行后Dialog_Callback_Void", message = "当前功能需要使用网络下载,请检查是否是流量,如果是则点击sure继续执行 , [同时还会回调callback]")
-    public void test_dialog_after_by_callback_void(View view, DialogUtils.DialogCallback callback) {
+    public void test_dialog_after_by_callback_void(View view, DialogHandler callback) {
         Logger.e("test_ show log by void -------------> start");
         Logger.e("test_ show log by void -------------> result [" + test() + "]");
         Logger.e("test_ show log by void -------------> end");
@@ -318,7 +316,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @AopDialogAfter(title = "执行后Dialog_Callback_String", message = "当前功能需要使用网络下载,请检查是否是流量,如果是则点击sure继续执行 , [同时还会回调callback]")
-    public String test_dialog_string_after_callback(View view, DialogUtils.DialogCallback callback) {
+    public String test_dialog_string_after_callback(View view, DialogHandler callback) {
         Logger.e("test_ show log by void -------------> start");
         Logger.e("test_ show log by void -------------> result [" + test() + "]");
         Logger.e("test_ show log by void -------------> end");

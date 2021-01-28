@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.atom.aop.SAOP;
@@ -15,10 +16,30 @@ import com.atom.aop.SAOP;
  */
 public final class DialogUtils {
 
+    public static class DialogParameters {
+        private String title;
+        private String message;
+
+        public String getTitle() {
+            return title;
+        }
+
+        public void setTitle(String title) {
+            this.title = title;
+        }
+
+        public String getMessage() {
+            return message;
+        }
+
+        public void setMessage(String message) {
+            this.message = message;
+        }
+    }
+
     private static DialogUtils sInstance;
     private DialogCallback mDialogCallback;
-    private String title  ;
-    private String message ;
+    private final DialogParameters mParameters = new DialogParameters();
 
     public static DialogUtils dialog() {
         return new DialogUtils();
@@ -34,16 +55,17 @@ public final class DialogUtils {
     }
 
     public DialogUtils setTitle(final String dialogTitle) {
-        this.title = dialogTitle;
+        this.mParameters.setTitle(dialogTitle);
         return this;
     }
+
     public DialogUtils setMessage(final String dialogMessage) {
-        this.message = dialogMessage;
+        this.mParameters.setMessage(dialogMessage);
         return this;
     }
 
     public void show() {
-        if(mDialogCallback.isShow(null)){
+        if (mDialogCallback.isShow(mParameters, null)) {
             DialogActivity.start(SAOP.getContext());
         }
     }
@@ -78,8 +100,8 @@ public final class DialogUtils {
             final Boolean[] isSure = new Boolean[1];
             // 请求权限 , 弹出dialog
             AlertDialog alertDialog = new AlertDialog.Builder(this)
-                    .setTitle(sInstance.title)
-                    .setMessage(sInstance.message)
+                    .setTitle(sInstance.mParameters.title)
+                    .setMessage(sInstance.mParameters.message)
                     .setPositiveButton("Sure", (dialog, which) -> {
                         isSure[0] = true;
                         dialog.dismiss();
@@ -114,7 +136,7 @@ public final class DialogUtils {
 
     public interface DialogCallback {
 
-        boolean isShow(@Nullable Object result);
+        boolean isShow(@NonNull DialogParameters parameters, @Nullable Object result);
 
         void onSure();
 

@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-apply plugin: 'com.xuexiang.xaop'
+apply plugin: 'com.saop.plugin'
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.2"
@@ -33,6 +33,5 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
-    // implementation project(':aop')
-    implementation project(':saop-runtime')
+    implementation project(':saop-core')
 }

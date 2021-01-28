@@ -1,0 +1,17 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.saop.core">
+
+    <application>
+        <activity
+            android:name=".utils.PermissionUtils$PermissionActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:theme="@style/AOP_Activity_Translucent"
+            android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
+
+        <activity
+            android:name=".utils.DialogUtils$DialogActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:theme="@style/AOP_Activity_Translucent"
+            android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
+    </application>
+</manifest>

@@ -1,5 +1,8 @@
 package com.atom.aop.aspectj;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.atom.aop.utils.DialogUtils;
 import com.atom.aop.utils.log.Logger;
 
@@ -41,10 +44,11 @@ public class DialogAfterAspectJ {
             final DialogUtils.DialogCallback finalCallback = callback;
             final Object finalResult = result;
             final DialogUtils.DialogCallback temp = new DialogUtils.DialogCallback() {
+
                 @Override
-                public boolean isShow(Object result) {
+                public boolean isShow(@NonNull DialogUtils.DialogParameters parameters, @Nullable Object result) {
                     if (finalCallback != null) {
-                        return finalCallback.isShow(finalResult);
+                        return finalCallback.isShow(parameters , finalResult);
                     }
                     return true;
                 }

@@ -1,5 +1,8 @@
 package com.atom.aop.aspectj;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.atom.aop.utils.DialogUtils;
 
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -37,9 +40,9 @@ public class DialogBeforeAspectJ {
                 .setMessage(dialog.message())
                 .callback(new DialogUtils.DialogCallback() {
                     @Override
-                    public boolean isShow(Object result) {
+                    public boolean isShow(@NonNull DialogUtils.DialogParameters parameters, @Nullable Object result) {
                         if (finalCallback != null) {
-                            return finalCallback.isShow(result);
+                            return finalCallback.isShow(parameters , result);
                         }
                         return true;
                     }

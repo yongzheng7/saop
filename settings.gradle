@@ -1,4 +1,7 @@
-include ':saop-runtime'
+include ':saop-core'
+include ':saop-annotation'
+include ':saop-api'
+//include ':saop-runtime'
 include ':saop-plugin'
 include ':app'
 rootProject.name = "SAOP"
